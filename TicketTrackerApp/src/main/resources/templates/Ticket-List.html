@@ -1,0 +1,125 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<style>
+body {font-family: Arial, Helvetica, sans-serif;}
+* {box-sizing: border-box;}
+
+
+ .heading{
+   display: block;
+  width: 100%;
+  list-style-type: none;
+  overflow: hidden;
+  height: 150px;
+  margin: auto;
+  padding: 20px;
+  border-radius: 5px;
+  background-color:#6a5acd;
+ }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #6a5acd;
+}
+
+li {
+  float: left;
+}
+
+li a {
+
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+</style>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+<div class= "heading">
+<h3  >Ticket Tracker Application</h3>
+<ul>
+<li><a th:href="@{/TicketTracker/listOfTickets}"
+		class="btn btn-primary btn-sm mb-3">Tickets</a></li>
+<li><a  th:href="@{/TicketTracker/CreateTicketForm}"
+		class="btn btn-primary btn-sm mb-3">New Ticket</a></li>
+</ul>
+</div>
+</head>
+
+<body>
+
+
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th>Title</th>
+				<th>Short Description</th>
+				<th>Content</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="tempTicket: ${tickets}">
+			
+				<td th:text="${tempTicket.title}" />	
+				<td th:text="${tempTicket.shortDescription}" />	
+				<td th:text="${tempTicket.createdOn}" />	
+				
+				<td>
+				<div class="row">
+				   
+				   <div class="col-small">
+					<!-- Add "Edit" ticket/link -->
+					<form action="#" th:action="@{/tickets/EditTicketForm}" method="POST">
+					
+						<input type="hidden" name="ticketID" th:value="${tempTicket.id}" />						
+						<button type="submit" class="btn btn-info btn-sm ml-3 mr-1">Edit</button>
+
+					</form>
+					</div>			
+					
+					<div class="col-small">
+					<!-- Add "delete" ticket/link -->					
+					<form action="#" th:action="@{/tickets/delete}" method="POST">
+					
+						<input type="hidden" name="ticketId" th:value="${tempTicket.id}" />						
+						<button type="submit" class="btn btn-danger btn-sm"
+								onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
+								Delete
+						</button>
+
+					</form>
+					</div>
+					
+					<div class="col-small">
+					<!-- Add "View" ticket/link -->
+					<form action="#" th:action="@{/tickets/ViewTicket}" method="GET">
+					
+						<input type="hidden" name="ticketID" th:value="${tempTicket.id}" />						
+						<button type="submit" class="btn btn-info btn-sm ml-3 mr-1">View</button>
+
+					</form>
+					</div>
+				</div>	
+				</td>
+				
+				
+			</tr>
+		</tbody>		
+	</table>
+	
+</div>
+	
+</body>
+</html>
